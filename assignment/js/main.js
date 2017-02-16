@@ -47,16 +47,17 @@ var Stamen_TonerLite = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/ton
 }).addTo(map);
 
 // We set this to HTTP to prevent 'CORS' issues
-$(document).ready(function(){
-  var setUpPath = function(){
-    var URL = $('#text-input1').val();
-    var latitudeKey = $('#text-input2').val();
-    var longtitudeKey = $('#text-input3').val();
-  };
-  setUpPath();
-});
+var myUrl;
+var latitudeKey;
+var longtitudeKey;
 
-var downloadData = $.ajax(URL);
+var setUpPath = function(){
+  myUrl = $('#text-input1').val();
+  latitudeKey = $('#text-input2').val();
+  longtitudeKey = $('#text-input3').val();
+};
+
+var downloadData;
 
 var parseData = function(downloadedData) {
   return JSON.parse(downloadedData);
@@ -74,7 +75,13 @@ var plotMarkers = function(markers) {
   });
 };
 
+
 $('body > div.sidebar > button').click(function(){
+  $(document).ready(function(){
+    setUpPath();
+    downloadData = $.ajax(myUrl);
+  });
+
   downloadData.done(function(data){
     var parsed = parseData(data);
     var markers = makeMarkers(parsed);
