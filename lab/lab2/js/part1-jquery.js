@@ -95,6 +95,8 @@ var Stamen_TonerLite = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/ton
     favorite color. Don't spend too much time on thinking about the perfect object to represent with
     this form, just about anything will do.
 
+
+
   Task 2: Setting (writing) input values
     *NOTE*: An input's value is not the same as an HTML element's text. We use $(selector).val() as
             opposed to $(selector).text() in this case.
@@ -170,4 +172,50 @@ var Stamen_TonerLite = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/ton
 // been interpreted. It is, therefore, an example of asynchronous behavior.
 $(document).ready(function() {
   // Do your stuff here
+  //Task 1:
+  $('#text-label1').text('Street Address');
+  $('#text-label2').text('Zipcode');
+  $('#text-label3').text('City');
+  $('#number-label').text('Year of Built');
+  $('#checkbox-label1').text('Is Vacant');
+  $('#checkbox-label2').text('Is Residential');
+  $('#color-label').text('Mark As');
+  $("body > div.sidebar > button").text('Search');
+  $('#main-heading').text('Search Properties');
+  //Task 2:
+  $('#text-input1').val('3200 Chestnut St');
+  $('#text-input2').val('19104');
+  $('#text-input3').val('Philadelphia');
+  $('#numeric-input').val(2009);
+  $('#cbox-input1').prop('checked',true);
+  $('#cbox-input2').prop('checked',true);
+  $('#color-input').val('#4286f4');
+  //Task 3:
+  var input_reading = function(){
+    var myArrays=[['#text-label1','#text-input1'],['#text-label2','#text-input2'],['#text-label3','#text-input3'],['#number-label','#numeric-input'],['#checkbox-label1','#cbox-input1'],['#checkbox-label2','#cbox-input2'],['#color-label','#color-input']];
+    _.map(myArrays, function(myArray){ return [myArray[0]=$(myArray[0]).text(),myArray[1]=$(myArray[1]).val()]; });
+    var allInformation = {};
+    _.each(myArrays, function(myArray){
+      allInformation[myArray[0]]=myArray[1];
+    });
+    console.log(allInformation);
+  };
+
+  //Task 4:
+  $('#text-input1').prop('disabled', false);
+  $('#text-input2').prop('disabled', false);
+  $('#text-input3').prop('disabled', false);
+  $('#numeric-input').prop('disabled', false);
+  $('#cbox-input1').prop('disabled', false);
+  $('#cbox-input2').prop('disabled', false);
+  //Task 5:
+  $('body > div.sidebar > button').click(function(){input_reading();});
+  //Task 6:
+  $('#number-label2').text('Latitude');
+  $('#number-label3').text('Longtitude');
+  $('#numeric-input2').val(39.953642);
+  $('#numeric-input3').val(-75.187749);
+  $('#numeric-input2').prop('disabled',false);
+  $('#numeric-input3').prop('disabled',false);
+  L.circleMarker([$('#numeric-input2').val(),$('#numeric-input3').val()]).addTo(map).bindPopup($('#text-input1').val()).openPopup();
 });
