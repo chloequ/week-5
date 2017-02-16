@@ -48,38 +48,36 @@ var Stamen_TonerLite = L.tileLayer('http://stamen-tiles-{s}.a.ssl.fastly.net/ton
 
 // We set this to HTTP to prevent 'CORS' issues
 $(document).ready(function(){
-  var plot = function(){
-    var URL = $('#text-input1').text();
-    var latitudeKey = $('#text-input2').text();
-    var longtitudeKey = $('#text-input3').text();
-
-    var downloadData = $.ajax(URL);
-
-    var parseData = function(downloadedData) {
-      return JSON.parse(downloadedData);
-    };
-
-    var makeMarkers = function(parsedData) {
-      return _.map(parsedData, function(myObject){
-        return L.marker([myObject[latitudeKey], myObject[longtitudeKey]]);
-      });
-    };
-
-    var plotMarkers = function(markers) {
-      _.each(markers, function(marker){
-        marker.addTo(map);
-      });
-    };
-
-    downloadData.done(function(data){
-      var parsed = parseData(data);
-      var markers = makeMarkers(parsed);
-      plotMarkers(markers);
-    });
+  var setUpPath = function(){
+    var URL = $('#text-input1').val();
+    var latitudeKey = $('#text-input2').val();
+    var longtitudeKey = $('#text-input3').val();
   };
+  setUpPath();
+});
 
-  $('body > div.sidebar > button').click(function(){
-    plot();
+var downloadData = $.ajax(URL);
+
+var parseData = function(downloadedData) {
+  return JSON.parse(downloadedData);
+};
+
+var makeMarkers = function(parsedData) {
+  return _.map(parsedData, function(myObject){
+    return L.marker([myObject[latitudeKey], myObject[longtitudeKey]]);
   });
+};
 
+var plotMarkers = function(markers) {
+  _.each(markers, function(marker){
+    marker.addTo(map);
+  });
+};
+
+$('body > div.sidebar > button').click(function(){
+  downloadData.done(function(data){
+    var parsed = parseData(data);
+    var markers = makeMarkers(parsed);
+    plotMarkers(markers);
+  });
 });
